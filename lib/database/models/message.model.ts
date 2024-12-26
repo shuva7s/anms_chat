@@ -1,17 +1,24 @@
 import { Schema, model, models } from "mongoose";
 
 export interface IMessage extends Document {
-  id: string;
-  chatRoomId: string;
-  creator: string;
-  message: string;
+  _id: string;
+  image: string;
+  text: string;
+  belongsTo: string;
+  sentBy: string;
+  readBy: string[];
   createdAt: Date;
 }
 
 const MessageSchema = new Schema({
-  chatRoomId: { type: Schema.Types.ObjectId, ref: "ChatRoom" },
-  creator: { type: Schema.Types.ObjectId, ref: "User" },
-  message: { type: String, required: true },
+  image: { type: String, default: "" },
+  text: { type: String, required: true },
+
+  belongsTo: { type: Schema.Types.ObjectId, ref: "ChatRoom" },
+
+  sentBy: { type: Schema.Types.ObjectId, ref: "User" },
+  readBy: [{ type: Schema.Types.ObjectId, ref: "User" }],
+
   createdAt: { type: Date, default: Date.now },
 });
 

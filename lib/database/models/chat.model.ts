@@ -2,27 +2,51 @@ import { model, models } from "mongoose";
 import { Schema } from "mongoose";
 export interface IChatRoom extends Document {
   _id: string;
-  passWord: string;
-  roomName: string;
-  roomDescription: string;
-  members: string[];
-  messages: string[];
+  isGroupChat: boolean;
+  groupName: string;
+  groupDescription: string;
+  groupPhoto: string;
   host: string;
+  membersWithTheirInfo: {
+    userId: string;
+    sentCount: number;
+    readCount: number;
+  }[];
+  totalMessages: number;
+  messages: string[];
+  requests: string[];
   createdAt: Date;
-  remainingDays: number;
-  currentDayCount: number;
 }
 
+export type memberType = {
+  userId: string;
+  sentCount: number;
+  readCount: number;
+};
+
 const ChatRoomModel = new Schema({
-  passWord: { type: String, length: 16, required: true },
-  roomName: { type: String, required: true },
-  roomDescription: { type: String, required: true },
-  members: [{ type: Schema.Types.ObjectId, unique: true, ref: "User" }],
+  isGroupChat: { type: Boolean, default: false },
+  groupName: { type: String, default: "" },
+  groupDescription: { type: String, default: "" },
+  groupPhoto: { type: String, default: "" },
+
+  host: { type: Schema.Types.ObjectId, default: null, ref: "User" },
+
+  membersWithTheirInfo: [
+    {
+      _id: false,
+      userId: { type: Schema.Types.ObjectId, ref: "User", required: true },
+      sentCount: { type: Number, default: 0 },
+      readCount: { type: Number, default: 0 },
+    },
+  ],
+
+  totalMessages: { type: Number, default: 0 },
+
   messages: [{ type: Schema.Types.ObjectId, ref: "Message" }],
-  host: { type: Schema.Types.ObjectId, required: true, ref: "User" },
+
+  requests: [{ type: Schema.Types.ObjectId, unique: true, ref: "User" }],
   createdAt: { type: Date, default: Date.now },
-  remainingDays: { type: Number, default: 1 },
-  currentDayCount: { type: Number, default: 0 },
 });
 
 const ChatRoom = models?.ChatRoom || model("ChatRoom", ChatRoomModel);
