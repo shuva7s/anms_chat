@@ -1,7 +1,8 @@
 import SidebarLoad from "@/components/loaders/SidebarLoad";
+import { Button } from "@/components/ui/button";
 import { handleUserAndGetChatRooms } from "@/lib/actions/user.actions";
 import { userInfo } from "@/lib/actions/userInfo.action";
-import { SignedIn, SignedOut } from "@clerk/nextjs";
+import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import Link from "next/link";
 import { Suspense } from "react";
 
@@ -77,6 +78,13 @@ export default function RootLayout({
         </Suspense>
         <div className="sm:ml-64 md:ml-72 flex-col">{children}</div>
       </SignedIn>
+      <SignedOut>
+        <main className="w-full min-h-screen flex justify-center items-center">
+          <Button asChild>
+            <SignInButton />
+          </Button>
+        </main>
+      </SignedOut>
     </div>
   );
 }
