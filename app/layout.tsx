@@ -26,7 +26,34 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider afterSignOutUrl={"/"}>
+    <ClerkProvider
+      afterSignOutUrl={"/"}
+      appearance={{
+        elements: {
+          cardBox: "shadow-none border-none rounded-none z-10",
+
+          card: "bg-background border-none rounded-none",
+          headerTitle: "text-primary",
+          headerSubtitle: "text-muted-foreground",
+
+          button: "shadow-none",
+          socialButtonsBlockButton:
+            "bg-foreground/5 hover:bg-foreground/10 py-3",
+          socialButtonsBlockButtonText: "text-muted-foreground",
+
+          dividerLine: "bg-foreground/10",
+          dividerText: "text-muted-foreground",
+
+          formFieldLabel: "text-muted-foreground",
+          formFieldInput: "bg-accent text-foreground outline-none",
+
+          formButtonPrimary:
+            "bg-primary text-white shadow-none hover:bg-primary/90",
+
+          footer: "hidden",
+        },
+      }}
+    >
       <html lang="en" suppressHydrationWarning>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}

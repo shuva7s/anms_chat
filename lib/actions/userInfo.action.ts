@@ -7,31 +7,31 @@ export async function userInfo() {
     const user = await currentUser();
     if (user) {
       return {
-        userId: user.id,
-        userName: user.username,
-        userImage: user.imageUrl,
-        userMail: user.emailAddresses[0].emailAddress,
-        firstName: user.firstName,
-        lastName: user.lastName,
+        userId: user.id!,
+        userName: user.username!,
+        userImage: user.imageUrl!,
+        userMail: user.emailAddresses[0].emailAddress!,
+        firstName: user.firstName ? user.firstName : "",
+        lastName: user.lastName ? user.lastName : "",
       };
     } else {
       return {
-        userId: undefined,
-        userName: undefined,
-        userImage: undefined,
-        userMail: undefined,
-        firstName: undefined,
-        lastName: undefined,
+        userId: null,
+        userName: null,
+        userImage: null,
+        userMail: null,
+        firstName: null,
+        lastName: null,
       };
     }
   } catch (error: any) {
     return {
-      userId: undefined,
-      userName: undefined,
-      userImage: undefined,
-      userMail: undefined,
-      firstName: undefined,
-      lastName: undefined,
+      userId: null,
+      userName: null,
+      userImage: null,
+      userMail: null,
+      firstName: null,
+      lastName: null,
     };
   }
 }

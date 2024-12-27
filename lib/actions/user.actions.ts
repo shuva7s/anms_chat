@@ -1,3 +1,5 @@
+"use server";
+
 import ChatRoom, { memberType } from "../database/models/chat.model";
 import User from "../database/models/user.model";
 import { connectToDatabase } from "../database/mongoose";
@@ -10,18 +12,17 @@ export type userDataProp = {
   lastName: string;
   userImage: string;
 };
-export async function handleUserAndGetChatRooms(userData: userDataProp) {
+
+export async function createUser(userData: userDataProp) {
   try {
     await connectToDatabase();
 
-    // Check if the user already exists
     let user = await User.findOne({
       clerk_id: userData.userId,
       username: userData.userName,
       email: userData.userMail,
     });
 
-    // If user does not exist, create them
     if (!user) {
       user = await User.create({
         clerk_id: userData.userId,
@@ -30,12 +31,38 @@ export async function handleUserAndGetChatRooms(userData: userDataProp) {
         first_name: userData.firstName,
         last_name: userData.lastName,
         photo: userData.userImage,
-        chatRooms: [],
-        invitations: [],
       });
     }
 
-    // Fetch user's chat rooms with required data transformation
+    return {
+      success: true,
+      user: JSON.parse(JSON.stringify(user)),
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      message: error.message || "Something went wrong",
+    };
+  }
+}
+export async function getChatRooms({
+  userId,
+  userName,
+  userMail,
+}: {
+  userId: string;
+  userName: string;
+  userMail: string;
+}) {
+  try {
+    await connectToDatabase();
+
+    let user = await User.findOne({
+      clerk_id: userId,
+      username: userName,
+      email: userMail,
+    });
+
     const chatRooms = await ChatRoom.find({
       _id: { $in: user.chatRooms },
     })

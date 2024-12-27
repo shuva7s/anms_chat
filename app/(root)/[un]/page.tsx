@@ -4,7 +4,7 @@ const ChatPage = ({ params }: { params: { un: string } }) => {
   return (
     <>
       <ChatHeader name={params.un} />
-      <main className="w-full min-h-[200vh] pt-4 flex flex-col gap-4">
+      <main className="w-full min-h-[200vh] py-6 flex flex-col gap-6">
         <p className="left">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellat quas
           excepturi provident cum eligendi culpa ipsam corporis sequi labore at
@@ -18,6 +18,7 @@ const ChatPage = ({ params }: { params: { un: string } }) => {
           excepturi aperiam earum laboriosam maxime similique quaerat aut labore
           veritatis est, eius blanditiis.
         </p>
+        <p className="right">Hello</p>
       </main>
     </>
   );
